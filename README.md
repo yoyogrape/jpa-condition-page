@@ -1,2 +1,2 @@
 # jpa-condition-page
-jpa 条件分页
+jpa 条件分页demo
