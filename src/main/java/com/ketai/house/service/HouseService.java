@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author naruto
+ * @author sjn
  * @date 2018/10/18 16:31
  */
 public interface HouseService {

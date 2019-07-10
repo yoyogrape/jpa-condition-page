@@ -5,7 +5,7 @@ import com.ketai.house.entity.District;
 import java.util.List;
 
 /**
- * @author naruto
+ * @author sjn
  * @date 2018/10/19 19:54
  */
 public interface DistrictService {

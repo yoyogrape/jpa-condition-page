@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * @author naruto
+ * @author sjn
  */
 @SpringBootApplication
 public class HouseApplication {

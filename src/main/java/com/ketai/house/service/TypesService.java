@@ -5,7 +5,7 @@ import com.ketai.house.entity.Types;
 import java.util.List;
 
 /**
- * @author naruto
+ * @author sjn
  * @date 2018/10/19 19:52
  */
 public interface TypesService {

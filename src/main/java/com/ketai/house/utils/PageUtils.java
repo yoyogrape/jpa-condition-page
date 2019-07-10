@@ -1,7 +1,7 @@
 package com.ketai.house.utils;
 
 /**
- * @author naruto
+ * @author sjn
  * @date 2018/10/20 16:03
  */
 public class PageUtils {

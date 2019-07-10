@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * @author naruto
+ * @author sjn
  * @date 2018/10/17 21:07
  */
 @Entity

@@ -3,7 +3,7 @@ package com.ketai.house.utils;
 import java.util.Map;
 
 /**
- * @author naruto
+ * @author sjn
  * @date 2018/10/17 22:46
  */
 public class StringUtils {
