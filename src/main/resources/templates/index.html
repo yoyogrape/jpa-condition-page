@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        div{width: 100%}
+        table{width: 80% ; text-align: center;margin: 0 auto;}
+        li{list-style: none;}
+        div>ul>li{border-bottom:1px solid black;margin-bottom: 20px;}
+        .title{font-size: 20px;}
+        #detailHouse>li{margin-bottom:10px; }
+        #pageUtil,.detail>span{text-align: center;}
+        .detail>span:nth-child(2){float:right;width:200px;font-size: 22px; color: red;font-weight: bold;}
+        .detail>span:nth-child(3){ float:right;width:200px;}
+        .pageNumbers{display: inline-block;width: 25px;height:25px;line-height: 25px;
+                        background-color: silver;border: white 1px solid;}
+    </style>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div>
+        <form action="list.html" method="post" id="searchForm">
+            <table>
+                <tr>
+                    <td>房屋信息</td>
+                    <td>价格</td>
+                    <td>房屋位置</td>
+                    <td>房型</td>
+                    <td>面积</td>
+                    <td>发布日期</td>
+                </tr>
+                <tr>
+                    <td>
+                        包含关键字: <label><input  name="title" th:value="${searchMap.containsKey('title')}? ${searchMap.title}" ></label>
+                        <input type="submit" value="搜索房屋">
+                        <input type="hidden" value="1" id="indexPage" name="indexPage">
+                    </td>
+                    <td>
+                        <label>
+                            <select name="betweenPrice">
+                                <option value="">--------不限--------</option>
+                                <option th:selected="${searchMap.containsKey('betweenPrice') and searchMap.betweenPrice eq '0~500'}"
+                                        value="0~500">0~500元
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenPrice') and searchMap.betweenPrice eq '501~1000'}"
+                                        value="501~1000">
+                                    501~1000元
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenPrice') and searchMap.betweenPrice eq '1001~2000'}"
+                                        value="1001~2000">
+                                    1001~2000元
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenPrice') and searchMap.betweenPrice eq '2001~3000'}"
+                                        value="2001~3000">
+                                    2001~3000元
+                                </option>
+                            </select>
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                            <select name="districtName">
+                                <option value="">--------不限--------</option>
+                                <option th:each="district:${districtList}"
+                                        th:selected="${searchMap.containsKey('districtName')} and ${searchMap.districtName eq district.dname}"
+                                        th:value="${district.dname}"
+                                        th:text="${district.dname}"></option>
+                            </select>
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                            <select name="typeId">
+                                <option value="">--------不限--------</option>
+                                <option th:each="type:${typeList}"
+                                        th:value="${type.tid}"
+                                        th:text="${type.tname}"
+                                        th:selected="${searchMap.containsKey('typeId')} and ${searchMap.typeId}== ${type.tid}"></option>
+                            </select>
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                            <select name="betweenSpace">
+                                <option value="">--------不限--------</option>
+                                <option th:selected="${searchMap.containsKey('betweenSpace') and searchMap.betweenSpace eq '0~20'}"
+                                        value="0~20">0~20平方
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenSpace') and searchMap.betweenSpace eq '21~50'}"
+                                        value="21~50">21~50平方
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenSpace') and searchMap.betweenSpace eq '51~80'}"
+                                        value="51~80">51~80平方
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenSpace') and searchMap.betweenSpace eq '81~120'}"
+                                        value="81~120">81~120平方
+                                </option>
+                                <option th:selected="${searchMap.containsKey('betweenSpace') and searchMap.betweenSpace eq '121~200'}"
+                                        value="121~200">121~200平方
+                                </option>
+                            </select>
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                            <select name="betweenPubDate">
+                                <option value="">--------不限--------</option>
+                                <option th:selected="${searchMap.containsKey('betweenPubDate') and searchMap.betweenPubDate eq '2015'}" value="2015">2015年</option>
+                                <option th:selected="${searchMap.containsKey('betweenPubDate') and  searchMap.betweenPubDate eq '2016'}" value="2016">2016年</option>
+                                <option th:selected="${searchMap.containsKey('betweenPubDate') and  searchMap.betweenPubDate eq '2017'}" value="2017">2017年</option>
+                                <option th:selected="${searchMap.containsKey('betweenPubDate') and  searchMap.betweenPubDate eq '2018'}" value="2018">2018年</option>
+                            </select>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <ul>
+            <li th:each="house:${houseList}">
+                <ul id="detailHouse">
+                    <li class="title">
+                        <a href="#" th:text="${house.title}"></a>
+                        <a href="javascript:" th:onclick="'javascript:deleteHouse('+${house.hid}+',this)'">删除</a>
+                    </li>
+                    <li class="detail">
+                        <span th:text="${house.street.district.dname}+${house.street.sname}+','+${house.floorage}+'平米'"></span>
+                        <span th:text="${house.price}+'元/月'"></span>
+                        <span th:text="${house.type.tname}"></span>
+                    </li>
+                    <li class="" th:text="'联系方式：'+${house.user.uname}+'    '+${house.contact}"></li>
+                </ul>
+            </li>
+            <li id="pageUtil">
+                <a href="javascript:"
+                   th:onclick="'javascript:changePage(1);'">首页</a>
+                <a href="javascript:"
+                   th:if="${page.currentPage > 1}"
+                   th:onclick="'javascript:changePage('+${page.currentPage - 1}+');'" >上一页</a>
+                <a href="javascript:" class="pageNumbers"
+                       th:each="index:${#numbers.sequence(1,page.pageCount)}"
+                       th:text="${index}"
+                       th:onclick="'javascript:changePage('+${index}+');'"></a>
+                <a href="javascript:"
+                   th:if="${page.currentPage < page.pageCount}"
+                   th:onclick="'javascript:changePage('+${page.currentPage + 1}+');'">下一页</a>
+                <a href="javascript:" th:onclick="'javascript:changePage('+${page.pageCount}+');'" >尾页</a>
+            </li>
+        </ul>
+    </div>
+    <script>
+        
+        function changePage(pageNum) {
+            $("#indexPage").val(pageNum);
+            $("#searchForm").submit();
+        }
+        
+        function deleteHouse(hid,obj) {
+            if(confirm("确定要删除该条房屋信息吗？")){
+                $.get("delete.json",{id:hid},
+                    function (result) {
+                        if(result === "true"){
+                            alert("删除成功！");
+                            $(obj).parent().parent().parent().remove();
+                        }
+                    });
+            }
+        }
+    </script>
+</body>
+</html>

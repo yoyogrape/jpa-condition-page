@@ -1,0 +1,38 @@
+#spring配置
+spring:
+  #oracle数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/house?useUnicode=true&amp;characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+    hikari:
+      maxLifetime: 1765000
+      maximumPoolSize: 15
+  jpa:
+      database: mysql
+   #   show-sql: true
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+          dialect: org.hibernate.dialect.MySQLDialect
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    encoding: UTF-8
+    mode: HTML5
+    servlet:
+      content-type: text/html
+
+#服务端配置
+server:
+  #端口号
+  port: 8088
+  servlet:
+    #项目上下文路径
+    context-path: /house
+    jsp:
+      init-parameters: true
+
